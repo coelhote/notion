@@ -1,5 +1,6 @@
 <html> 
 <head>
+    <meta charset="UTF-8">
     <title>Mensagem Saudação</title> 
     <style>
 #lbl {
@@ -42,6 +43,15 @@ body{
     var dayOfWeek = weekday[today.getDay()];
     var date = dayOfWeek+" " + (today.getDate() < 10 ? '0'+today.getDate() : today.getDate() ) + "/" +(today.getMonth()+1 < 10 ? '0'+(today.getMonth()+1) : today.getMonth()+1) +'/'+today.getFullYear()  ;
 
+    let msg = '';
+    if(today.getDate() == 5){
+        msg = 'Sua conta da TIM vence em 2 dias';
+    }else if(today.getDate() == 6){
+        msg = 'Sua conta da TIM vence em 1 dia';
+    }else if(today.getDate() == 7){
+        msg = 'Sua conta da TIM vence hoje';
+    }
+
     var greet;
 
     if (hrs < 12)
@@ -52,6 +62,6 @@ body{
         greet = 'Boa Noite, Sacha Monique! ';
 
     document.getElementById('lbl').innerHTML =
-        greet+=`<div id="date"> Hoje é ${date}</div>`;
+        greet+=`<div id="date"> Hoje é ${date} <br/> ${msg}</div>`;
 </script> 
 </html>
