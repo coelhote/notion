@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Número da Semana e Primeiro/Último Dia da Semana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 2px 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        #weekNumber {
+            margin-top: 20px;
+            font-size: 220px;
+            line-height: 200px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 0px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h2><strong>Número da Semana</strong></h2>
+        </header>
+        <h1> <span id="weekNumber"></h1>
+        <p>Essa semana vai de <strong><span id="firstDay"></span></strong></p>
+        <p>até <strong><span id="lastDay"></span></strong></p>
+    </div>
+
+    <script>
+        // Função para obter o número da semana a partir de uma data
+        function getWeekNumber(date) {
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+            const week1 = new Date(d.getFullYear(), 0, 4);
+            return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+        }
+
+        // Função para obter o primeiro e o último dia da semana com base em uma data
+        function getWeekStartEndDates(date) {
+            const d = new Date(date);
+            const dayOfWeek = d.getDay();
+
+            // Subtrai o número de dias para obter o primeiro dia da semana (segunda-feira)
+            d.setDate(d.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+            const firstDay = d.toDateString();
+
+            // Adiciona 6 dias para obter o último dia da semana (domingo)
+            d.setDate(d.getDate() + 6);
+            const lastDay = d.toDateString();
+
+            return [firstDay, lastDay];
+        }
+
+        function formatDate(date) {
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('pt-BR', options);
+        }
+
+        // Obter a data atual
+        const currentDate = new Date();
+
+        // Obter o número da semana
+        const weekNumber = getWeekNumber(currentDate);
+
+        // Obter o primeiro e o último dia da semana
+        const [firstDay, lastDay] = getWeekStartEndDates(currentDate);
+
+        // Exibir o resultado na página
+        document.getElementById("weekNumber").textContent += weekNumber;
+        document.getElementById("firstDay").textContent = formatDate(new Date(firstDay));
+        document.getElementById("lastDay").textContent = formatDate(new Date(lastDay));
+
+    </script>
+</body>
+
+</html>
